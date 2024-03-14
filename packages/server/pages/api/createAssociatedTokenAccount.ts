@@ -44,28 +44,21 @@ export default async function (request: NextApiRequest, response: NextApiRespons
             cache
         );
 
-        if (config.returnSignature !== undefined) {
-            if (!await isReturnedSignatureAllowed(
-                request,
-                config.returnSignature as ReturnSignatureConfigField
-            )) {
-                response.status(400).send({ status: 'error', message: 'anti-spam check failed' });
-                return;
-            }
-            response.status(200).send({ status: 'ok', signature });
-            return;
-        }
+        // if (config.returnSignature !== undefined) {
+        //     if (!await isReturnedSignatureAllowed(
+        //         request,
+        //         config.returnSignature as ReturnSignatureConfigField
+        //     )) {
+        //         response.status(400).send({ status: 'error', message: 'anti-spam check failed' });
+        //         return;
+        //     }
+        //     response.status(200).send({ status: 'ok', signature });
+        //     return;
+        // }
 
-        transaction.addSignature(
-            ENV_SECRET_KEYPAIR.publicKey,
-            Buffer.from(base58.decode(signature))
-        );
+        transaction.addSignature(ENV_SECRET_KEYPAIR.publicKey, Buffer.from(base58.decode(signature)));
 
-        await sendAndConfirmRawTransaction(
-            connection,
-            transaction.serialize(),
-            {commitment: 'confirmed'}
-        );
+        await sendAndConfirmRawTransaction(connection, transaction.serialize(), { commitment: 'confirmed' });
 
         // Respond with the confirmed transaction signature
         response.status(200).send({ status: 'ok', signature });
