@@ -1,6 +1,6 @@
 # Octane ⛽
 
-1. [What is Octane?](#what-is-octane
+1. [What is Octane?](#what-is-octane)
 2. [How does it work?](#how-does-it-work)
 3. [Getting started](#getting-started)
 4. [Security](#security)
